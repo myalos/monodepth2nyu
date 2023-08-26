@@ -93,20 +93,25 @@ class Trainer:
 
         num_train_samples = len(train_filenames)
         self.num_total_steps = num_train_samples // self.opt.batch_size * self.opt.num_epochs
-
+        # added by myalos@23-8-26
+        # /home/myalos/suewiq/data/nyu_depth_v2/...
+        mydatapath = '/home/myalos/suewiq/data/'
+        # change 1 to self.opt.scales
         train_dataset = self.dataset(
-            "root path of your nyu data", train_filenames, self.opt.height, self.opt.width,
-            self.opt.frame_ids, 1, is_train=True, img_ext='.jpg', shared_dict=shared_dict)
+            mydatapath, train_filenames, self.opt.height, self.opt.width,
+            self.opt.frame_ids, self.opt.scales, is_train=True, img_ext='.jpg', shared_dict=shared_dict)
         self.train_loader = DataLoader(
             train_dataset, self.opt.batch_size, True,
             num_workers=12, pin_memory=True, drop_last=True)
+        # change 1 to self.opt.scales
         val_dataset = self.dataset(
-            "root path of your nyu data", val_filenames, self.opt.height, self.opt.width,
-            [0], 1, is_train=False, img_ext='.jpg')
+            mydatapath, val_filenames, self.opt.height, self.opt.width,
+            self.opt.frame_ids, self.opt.scales, is_train=False, img_ext='.jpg')
         self.val_loader = DataLoader(
             val_dataset, 1, shuffle=False,
             num_workers=2)
         #self.val_iter = iter(self.val_loader)
+        # ------
 
         self.writers = {}
         for mode in ["train", "val"]:

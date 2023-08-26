@@ -76,7 +76,7 @@ class NYUDataset(data.Dataset):
         self.filenames = filenames
         self.height = height
         self.width = width
-        self.num_scales = num_scales
+        self.num_scales = len(num_scales)
         self.is_train = is_train
         self.interp = Image.ANTIALIAS
         self.frame_idxs = frame_idxs
